@@ -29,7 +29,10 @@ def nav_button(parent, command, img_path, text):
             command = command)
     return button
 
-def search_bar(parent, hint, font):
+def my_entry(parent, hint, font, isHidden = False):
+    char = ''
+    if (isHidden == True):
+        char = '*'
     search_bar = ctk.CTkEntry(parent, 
             placeholder_text = hint,
             font = font,
@@ -38,10 +41,12 @@ def search_bar(parent, hint, font):
             placeholder_text_color = c.fontColor,
             border_width = 0,
             height = c.widget_height, 
+            show = char
+            # lambda : '*' if isHidden else '*'
         )
     return search_bar
 
-def search_button(parent, text, font):
+def my_button(parent, text, font, command):
     button = ctk.CTkButton(parent, 
             height = c.widget_height, 
             text = text,
@@ -50,6 +55,7 @@ def search_button(parent, text, font):
             hover_color = c.buttonHoverColor, 
             text_color = 'white',
             corner_radius = c.radius,
+            command = command
         )
     return button
 

@@ -7,7 +7,7 @@ import constants as c
 import widgets as w
 import home_frame as home
 
-class App(ctk.CTk):
+class NavigationMain(ctk.CTk):
     def __init__(self, title, size):
         super().__init__()
         self.title(title)
@@ -124,4 +124,4 @@ class NavigationButtons(ctk.CTkFrame):
 
 # app begin
 if __name__ == '__main__':
-    App(title='Smile', size=(800, 600))
+    NavigationMain(title='Smile', size=(800, 600))

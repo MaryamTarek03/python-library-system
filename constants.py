@@ -30,6 +30,8 @@ book_and_clouds = 'images\\book_alone.png'
 book_stack = 'images\\book_stack.png'
 purple_book = 'images\\purple_book.png'
 sign_out = 'images\\sign_out.png'
+books = 'images\\books1.png'
+books_and_trees = 'images\\books_trees.png'
 
 # button icons
 book = 'images\\button\\book.png'
@@ -45,3 +47,6 @@ strawberry = 'images\\button\\strawberry.png'
 
 # icon image
 icon = 'images\\book_stack.ico'
+
+# font
+family = 'Gabriola'

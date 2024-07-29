@@ -1,0 +1,21 @@
+{
+  "cSpell.words": [
+    "activeforeground",
+    "borderwidth",
+    "columnspan",
+    "customtkinter",
+    "focuscolor",
+    "focusthickness",
+    "Gabriola",
+    "padx",
+    "pady",
+    "relx",
+    "textvariable",
+    "transparentcolor",
+    "wraplength"
+  ],
+  "editor.tokenColorCustomizations": {
+    "comments": "#2fd479"
+  },
+  "workbench.colorCustomizations": {}
+}

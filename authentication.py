@@ -11,6 +11,7 @@ import widgets as w
 front_col = '#5e548e'
 bg_btn = "#231942"
 
+isSigned = True
 
 def go_home(self):
     # self.destroy()
@@ -66,7 +67,6 @@ class Login(ctk.CTkFrame):
         self.frame_form = ctk.CTkFrame(self, fg_color = c.backgroundColor)
         self.frame_form.grid(column = 0, row = 0, sticky = 'nsew', pady= c.padding, padx= c.padding)
         
-
         # grid configuration : form frame
         self.frame_form.rowconfigure(0, weight = 2, uniform = 'a')
         self.frame_form.rowconfigure((1,2,3,4,5,6,7), weight = 1, uniform = 'a')
@@ -188,4 +188,4 @@ class SignUp(ctk.CTkFrame):
         sign_up.grid(row = 7, column = 0, columnspan = 2, sticky = 'new')
         sign_up.bind('<Button-1>', lambda event: login())
 
-Auth(title='Library', size= (800, 600))
+# Auth(title='Library', size= (800, 600))

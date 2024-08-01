@@ -6,8 +6,12 @@ from PIL import Image, ImageTk
 import constants as c
 import widgets as w
 import home_frame as home
+import authentication as auth
+import books
+import users
+import report
 
-class NavigationMain(ctk.CTk):
+class App(ctk.CTk):
     def __init__(self, title, size):
         super().__init__()
         self.title(title)
@@ -38,10 +42,10 @@ class NavigationMain(ctk.CTk):
         # frames
         frames = [
             home.Home(self),
-            ctk.CTkFrame(self, fg_color = 'red'),
-            ctk.CTkFrame(self, fg_color = 'black'),
-            ctk.CTkFrame(self, fg_color = 'purple'),
-            ctk.CTkFrame(self, fg_color = 'green'),
+            books.BookCU(self),
+            ctk.CTkFrame(self, fg_color = 'pink'),
+            users.Users(self),
+            report.Report(self),
         ]
         frames[0].lift()
         
@@ -124,4 +128,8 @@ class NavigationButtons(ctk.CTkFrame):
 
 # app begin
 if __name__ == '__main__':
-    NavigationMain(title='Smile', size=(800, 600))
+    # worth checking way of moving
+    # auth.isSigned = False 
+    # auth.Auth(title='Library',size=(800,600))
+    # if (auth.isSigned):
+    App(title='Smile', size=(800, 600))

@@ -29,7 +29,7 @@ def nav_button(parent, command, img_path, text):
             command = command)
     return button
 
-def my_entry(parent, hint, font, isHidden = False):
+def my_entry(parent, hint, font, isHidden = False, height = c.widget_height):
     char = ''
     if (isHidden == True):
         char = '*'
@@ -40,7 +40,7 @@ def my_entry(parent, hint, font, isHidden = False):
             fg_color = c.primaryColor,
             placeholder_text_color = c.fontColor,
             border_width = 0,
-            height = c.widget_height, 
+            height = height, 
             show = char
             # lambda : '*' if isHidden else '*'
         )

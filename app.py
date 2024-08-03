@@ -10,6 +10,7 @@ import authentication as auth
 import books
 import users
 import report
+import loans
 
 class App(ctk.CTk):
     def __init__(self, title, size):
@@ -43,7 +44,7 @@ class App(ctk.CTk):
         frames = [
             home.Home(self),
             books.BookCU(self),
-            ctk.CTkFrame(self, fg_color = 'pink'),
+            loans.Loan(self),
             users.Users(self),
             report.Report(self),
         ]
@@ -132,4 +133,4 @@ if __name__ == '__main__':
     # auth.isSigned = False 
     # auth.Auth(title='Library',size=(800,600))
     # if (auth.isSigned):
-    App(title='Smile', size=(800, 600))
+    App(title='Alyaa\'s Library', size=(800, 600))

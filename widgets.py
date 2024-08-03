@@ -62,3 +62,19 @@ def my_button(parent, text, font, command):
 def frame_colored(parent):
     frame = ctk.CTkFrame(parent, fg_color = c.primaryColor, corner_radius = c.radius)
     return frame
+
+class SearchArea(ctk.CTkFrame):
+    def __init__(self, parent, command, hint):
+        super().__init__(parent, fg_color = c.backgroundColor)
+
+        # grid configuration
+        self.columnconfigure(0, weight = 8, uniform = 'a')
+        self.columnconfigure(1, weight = 2, uniform = 'a')
+
+        # :: search bar 
+        self.search_bar = my_entry(self, hint = f'Search for {hint}', font = ctk.CTkFont(c.family, size = 20))
+        self.search_bar.grid(row = 0 , column = 0, sticky = 'new', padx = (c.padding, 5), pady = c.padding)
+
+        # :: search button
+        self.search_button = my_button(self, text = 'search', font = ctk.CTkFont(c.family, size = 20), command= command)
+        self.search_button.grid(row = 0, column = 1, sticky = 'new', padx = (5, c.padding), pady = c.padding)

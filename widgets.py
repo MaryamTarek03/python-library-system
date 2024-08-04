@@ -78,3 +78,78 @@ class SearchArea(ctk.CTkFrame):
         # :: search button
         self.search_button = my_button(self, text = 'search', font = ctk.CTkFont(c.family, size = 20), command= command)
         self.search_button.grid(row = 0, column = 1, sticky = 'new', padx = (5, c.padding), pady = c.padding)
+
+class ScrollFrame(ttk.Frame):
+    def __init__(self, parent, data, item_height):
+        super().__init__(master = parent)
+
+        # grid configuration
+        self.rowconfigure(0, weight = 1, uniform = 'a')
+        self.columnconfigure(0, weight = 19, uniform = 'a')
+        self.columnconfigure(1, weight = 1, uniform = 'a')
+
+        # widget data
+        self.data = data
+        self.item_number = len(data)
+        self.list_height = self.item_number * item_height
+
+        # canvas 
+        self.canvas = tk.Canvas(self, background = 'red', scrollregion = (0,0,self.winfo_width(),self.list_height))
+        self.canvas.grid(row=0, column=0, sticky='nsew')
+
+        # display frame
+        self.frame = ttk.Frame(self)
+
+        for item in self.data:
+        	self.create_item(item).pack(expand = True, fill = 'both', pady =  4, padx = 10)
+            
+        # scrollbar 
+        self.scrollbar = ttk.Scrollbar(self, orient = 'vertical', command = self.canvas.yview)
+        self.canvas.configure(yscrollcommand = self.scrollbar.set)
+        self.scrollbar.grid(row=0, column=1, sticky='nsew')
+
+        # events
+        self.canvas.bind_all('<MouseWheel>', lambda event: self.canvas.yview_scroll(-int(event.delta / 60), "units"))
+        self.bind('<Configure>', self.update_size)
+
+    def update_size(self, event):
+        if self.list_height >= self.winfo_height():
+            height = self.list_height
+            self.canvas.bind_all('<MouseWheel>', lambda event: self.canvas.yview_scroll(-int(event.delta / 60), "units"))
+            self.scrollbar.place(relx = 1, rely = 0, relheight = 1, anchor = 'ne')
+        else:
+            height = self.winfo_height()
+            self.canvas.unbind_all('<MouseWheel>')
+            self.scrollbar.place_forget()
+
+        self.canvas.create_window(
+            (0,0), 
+            window = self.frame, 
+            anchor = 'nw', 
+            width = self.winfo_width(), 
+            height = height)
+
+    def create_item(self, item):
+        frame = ttk.Frame(self.frame)
+
+        # grid layout
+        frame.rowconfigure(0, weight = 1)
+        frame.columnconfigure((0,1,2,3,4), weight = 1, uniform = 'a')
+
+        # widgets 
+        ttk.Label(frame, text = '5').grid(row = 0, column = 0)
+        ttk.Label(frame, text = f'{item[0]}').grid(row = 0, column = 1)
+        ttk.Button(frame, text = f'{item[1]}').grid(row = 0, column = 2, columnspan = 3, sticky = 'nsew')
+
+        return frame
+
+# setup
+window = tk.Tk()
+window.geometry('500x400')
+window.title('Scrolling')
+
+text_list = [('label', 'button'),('thing', 'click'),('third', 'something'),('label1', 'button'),('label2', 'button'),('label3', 'button'),('label4', 'button')]
+list_frame = ScrollFrame(window, text_list, 100).pack(expand = True, fill = 'both')
+
+# run 
+window.mainloop()

@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 import constants as c
 import widgets as w
 import home_frame as home
-import authentication as auth
+# import authentication as auth
 import books
 import users
 import report
@@ -127,10 +127,10 @@ class NavigationButtons(ctk.CTkFrame):
             command = lambda : frames[4].lift(),
             img_path= c.lightbulb).pack()
 
-# app begin
-if __name__ == '__main__':
-    # worth checking way of moving
-    # auth.isSigned = False 
-    # auth.Auth(title='Library',size=(800,600))
-    # if (auth.isSigned):
-    App(title='Alyaa\'s Library', size=(800, 600))
+# # app begin
+# if __name__ == '__main__':
+#     # worth checking way of moving
+#     # auth.isSigned = False 
+#     # auth.Auth(title='Library',size=(800,600))
+#     # if (auth.isSigned):
+#     App(title='Alyaa\'s Library', size=(800, 600))

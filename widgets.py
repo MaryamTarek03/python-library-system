@@ -143,13 +143,13 @@ class ScrollFrame(ttk.Frame):
 
         return frame
 
-# setup
-window = tk.Tk()
-window.geometry('500x400')
-window.title('Scrolling')
+# # setup
+# window = tk.Tk()
+# window.geometry('500x400')
+# window.title('Scrolling')
 
-text_list = [('label', 'button'),('thing', 'click'),('third', 'something'),('label1', 'button'),('label2', 'button'),('label3', 'button'),('label4', 'button')]
-list_frame = ScrollFrame(window, text_list, 100).pack(expand = True, fill = 'both')
+# text_list = [('label', 'button'),('thing', 'click'),('third', 'something'),('label1', 'button'),('label2', 'button'),('label3', 'button'),('label4', 'button')]
+# list_frame = ScrollFrame(window, text_list, 100).pack(expand = True, fill = 'both')
 
-# run 
-window.mainloop()
+# # run 
+# window.mainloop()

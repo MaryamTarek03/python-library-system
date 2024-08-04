@@ -6,18 +6,21 @@ from PIL import Image, ImageTk
 import customtkinter as ctk
 import constants as c
 import widgets as w
+import app
 
-# c.backgroundColor = '#f4cae0'
-front_col = '#5e548e'
-bg_btn = "#231942"
-
-isSigned = True
 
 def go_home(self):
-    # self.destroy()
-    # global home
-    # home = app.App(title='Library', size=(800,600))
-    pass
+    self.destroy()
+    app.App('Library', (800,600))
+
+def login(self, email, password):
+    go_home(self)
+
+def sign_up(self, name, email, password, confirm_password):
+    if (password != confirm_password):
+        message = messagebox.showwarning(message='You didn\'t confirm password', title='Warning')
+        return
+    go_home(self)
 
 class Auth(ctk.CTk):
     def __init__(self, title, size):
@@ -104,7 +107,7 @@ class Login(ctk.CTkFrame):
         # row 5 : login button
         login_button = w.my_button(self.frame_form, 
                         text= 'Log in', 
-                        command= lambda: go_home(self),
+                        command= lambda: login(parent, email= username_entry.get(), password=password_entry.get()),
                         font= ctk.CTkFont(family = c.family, size = 18, weight = 'bold'),
                         )
         login_button.grid(row = 4, column = 0, columnspan = 2, sticky = 'n')
@@ -178,14 +181,14 @@ class SignUp(ctk.CTkFrame):
         # row 7 : login button
         login_button = w.my_button(self.frame_form, 
                         text= 'Sign Up', 
-                        command= lambda: go_home(self),
+                        command= lambda: sign_up(parent, name= name_entry.get(), email= e_mail_entry.get(), password=password_entry.get(), confirm_password=confirm_password_entry.get()),
                         font= ctk.CTkFont(family = c.family, size = 18, weight = 'bold'),
                         )
         login_button.grid(row = 6, column = 0, columnspan = 2, sticky = 'n')
         
         # row 8 : sign up button
-        sign_up = ctk.CTkLabel(self.frame_form, text="If you have an account, Login Now", fg_color=c.backgroundColor, font=(c.family, 20, "bold"))
-        sign_up.grid(row = 7, column = 0, columnspan = 2, sticky = 'new')
-        sign_up.bind('<Button-1>', lambda event: login())
+        sign_up_label = ctk.CTkLabel(self.frame_form, text="If you have an account, Login Now", fg_color=c.backgroundColor, font=(c.family, 20, "bold"))
+        sign_up_label.grid(row = 7, column = 0, columnspan = 2, sticky = 'new')
+        sign_up_label.bind('<Button-1>', lambda event: login())
 
-# Auth(title='Library', size= (800, 600))
+Auth(title='Library', size= (800, 600))

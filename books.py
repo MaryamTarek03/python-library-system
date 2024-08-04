@@ -53,7 +53,7 @@ class BookCU(ctk.CTkFrame):
         color_frame.grid(row=3,column=1,sticky="we",padx=(0,padding))
 
         # image picker : row 5
-        image_frame=field(self,"Title","Enter book image")
+        image_frame=field(self,"Book Image","Enter book image")
         image_frame.grid(row=4,column=1,sticky="we",padx=(0,padding))
 
         # buttons : row 6 (cancel and submit)

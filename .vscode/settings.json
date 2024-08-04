@@ -54,7 +54,7 @@
   "workbench.colorCustomizations": {},
   "editor.semanticTokenColorCustomizations": {
     "rules": {
-      "variable": "#ff0000"
+      "variable": "#95c1ff"
     }
   }
 }

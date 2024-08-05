@@ -7,6 +7,7 @@ import customtkinter as ctk
 import constants as c
 import widgets as w
 import app
+import database as db
 
 
 def go_home(self):
@@ -14,12 +15,29 @@ def go_home(self):
     app.App('Library', (800,600))
 
 def login(self, email, password):
+    if email== '' or password=='':
+        message = messagebox.showwarning(message='Please fill all fields', title='Empty Fields')
+        return
+    if not db.admin_exist(email):
+        message = messagebox.showwarning(message='Admin doesn\'t exist, please Sign Up', title='Admin doesn\'t exist')
+        return
+    admin_data = db.get_admin(email)
+    if admin_data[0][2] != password:
+        message = messagebox.showwarning(message='Your password is incorrect', title='Incorrect Password')
+        return
     go_home(self)
 
 def sign_up(self, name, email, password, confirm_password):
-    if (password != confirm_password):
-        message = messagebox.showwarning(message='You didn\'t confirm password', title='Warning')
+    if email== '' or name=='' or password=='' or confirm_password=='':
+        message = messagebox.showwarning(message='Please fill all fields', title='Empty Fields')
         return
+    if db.admin_exist(email):
+        message = messagebox.showwarning(message='Admin already exists, please Login', title='Admin exists')
+        return
+    if password != confirm_password:
+        message = messagebox.showwarning(message='You didn\'t confirm password', title='Password Confirmation')
+        return
+    db.add_admin(name, email, password)
     go_home(self)
 
 class Auth(ctk.CTk):

@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 import customtkinter as ctk
 import constants as c
 import widgets as w
+import database as db
 
 # Sample data for demonstration
 books = [

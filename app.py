@@ -6,7 +6,6 @@ from PIL import Image, ImageTk
 import constants as c
 import widgets as w
 import home_frame as home
-# import authentication as auth
 import books
 import users
 import report

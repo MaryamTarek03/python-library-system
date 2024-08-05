@@ -32,6 +32,7 @@ purple_book = 'images\\purple_book.png'
 sign_out = 'images\\sign_out.png'
 books = 'images\\books1.png'
 books_and_trees = 'images\\books_trees.png'
+book_cover = 'images\\book_cover.png'
 
 # button icons
 book = 'images\\button\\book.png'

@@ -4,6 +4,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from PIL import Image, ImageTk
 import constants as c
+import io
 
 def sign_out_button(parent):
     sign_out_button = ctk.CTkButton(parent, 
@@ -46,6 +47,24 @@ def my_entry(parent, hint, font, isHidden = False, height = c.widget_height):
         )
     return search_bar
 
+def my_entry_var(parent, hint, font, variable, isHidden = False, height = c.widget_height):
+    char = ''
+    if (isHidden == True):
+        char = '*'
+    search_bar = ctk.CTkEntry(parent, 
+            placeholder_text = hint,
+            font = font,
+            corner_radius = c.radius, 
+            fg_color = c.primaryColor,
+            placeholder_text_color = c.fontColor,
+            border_width = 0,
+            height = height, 
+            show = char,
+            textvariable = variable
+            # lambda : '*' if isHidden else '*'
+        )
+    return search_bar
+
 def my_button(parent, text, font, command):
     button = ctk.CTkButton(parent, 
             height = c.widget_height, 
@@ -63,6 +82,42 @@ def frame_colored(parent):
     frame = ctk.CTkFrame(parent, fg_color = c.primaryColor, corner_radius = c.radius)
     return frame
 
+def book_frame(parent, title, author, genre):
+    frame = ctk.CTkFrame(parent, fg_color = c.backgroundColor)
+
+    # grid configuration
+    frame.rowconfigure(0, weight = 10, uniform = 'a')
+    frame.rowconfigure((1,2), weight = 1, uniform = 'a')
+    frame.columnconfigure(0, weight = 1, uniform = 'a')
+    
+    image_label = ctk.CTkLabel(frame,
+                font=(c.family , 12, 'bold'),
+                text=title,
+                fg_color=c.backgroundColor,
+                width=25,
+                image=ctk.CTkImage(light_image = Image.open(c.book_cover), size = (150,200)),
+                compound = TOP,
+                wraplength = 100)
+    image_label.grid(row=0, column=0, sticky='nsew')
+    tk.Label(frame, background=c.backgroundColor, width=25, font=(c.family , 12), text=author).grid(row=1, column=0, sticky='sew')
+    tk.Label(frame, background=c.backgroundColor, width=25, font=(c.family , 10), text=genre).grid(row=2, column=0, sticky='new')
+
+    return frame
+
+def my_combobox(parent, values, variable):
+    combobox = ctk.CTkComboBox(parent, 
+                        width=200,
+                        height = 35,
+                        fg_color = 'white', 
+                        border_color = c.primaryColor, 
+                        button_color = c.primaryColor,
+                        corner_radius = c.radius,
+                        dropdown_fg_color = c.primaryColor,
+                        state='readonly', 
+                        values=values,
+                        variable =variable
+                        )
+    return combobox
 class SearchArea(ctk.CTkFrame):
     def __init__(self, parent, command, hint):
         super().__init__(parent, fg_color = c.backgroundColor)

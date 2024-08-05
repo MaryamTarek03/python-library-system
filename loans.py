@@ -73,12 +73,12 @@ class LoanTable(ctk.CTkFrame):
         loaned_books_label = tk.Label(self, text="List of Loaned Books", font=(c.family, 16), bg=c.backgroundColor)
         loaned_books_label.pack(anchor="w")
 
-        loaned_books_list = ttk.Treeview(self, columns=("Title", "User Name", "Issue Date", "Due Date", "Status"), show="headings")
-        loaned_books_list.heading("Title", text="Book Name")
+        loaned_books_list = ttk.Treeview(self, columns=("Title", "User Name", "Issue Date", "Due Date"), show="headings")
+        loaned_books_list.heading("Title", text="Book Name",)
         loaned_books_list.heading("User Name", text="User Name")
         loaned_books_list.heading("Issue Date", text="Issue Date")
         loaned_books_list.heading("Due Date", text="Due Date")
-        loaned_books_list.heading("Status", text="Status")
+        loaned_books_list.column('Title', width = 100)
         loaned_books_list.pack(fill=tk.X)
 
 

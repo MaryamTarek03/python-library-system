@@ -88,7 +88,7 @@ class Navigation(ctk.CTkFrame):
         NavigationButtons(self, frames=frames).grid(row = 1, padx= 5)
 
         # row 2
-        w.sign_out_button(self).grid(row = 2, sticky='sn', padx = 15, pady = 20)
+        # w.sign_out_button(self).grid(row = 2, sticky='sn', padx = 15, pady = 20)
 
 # navigation items
 # navigation buttons
@@ -132,4 +132,4 @@ class NavigationButtons(ctk.CTkFrame):
 #     # auth.isSigned = False 
 #     # auth.Auth(title='Library',size=(800,600))
 #     # if (auth.isSigned):
-#     App(title='Alyaa\'s Library', size=(800, 600))
+App(title='Alyaa\'s Library', size=(800, 600))

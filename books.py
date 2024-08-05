@@ -116,6 +116,7 @@ class BookCU(ctk.CTkFrame):
             author_var.set(item_values[2])
             genre_var.set(item_values[3])
 
+
         # bind tree event
         tree.bind("<ButtonRelease-1>", on_tree_click)
 
@@ -140,7 +141,7 @@ class BookCU(ctk.CTkFrame):
         def update():
             selected_item = tree.selection()[0]
             if selected_item:
-                isbn = isbn_var.get()
+                isbn = selected_item[0]
                 title = title_var.get()
                 author = author_var.get()
                 genre = genre_var.get()

@@ -4,52 +4,22 @@ from tkinter import messagebox
 import constants as c
 import widgets as w
 import customtkinter as ctk
-
-def add_data() :
-    name = name_entry.get()
-    email = email_entry.get()
-    phone = phone_entry.get()
-    if name and email and phone :
-        tree.insert('', 'end', values = (name, email, phone))
-        clear_entries()
-    else:
-       messagebox.showwarning("Input Error", "Please fill all fields")
-
-def update_data() :
-    selected_item = tree.selection()
-    if selected_item :
-        name = name_entry.get()
-        email = email_entry.get()
-        phone = phone_entry.get()
-        if name and email and phone :
-            tree.item(selected_item, values = (name, email, phone))
-            clear_entries()
-        else:
-           messagebox.showwarning("Input Error", "Please fill all fields")
-    else:
-       messagebox.showwarning("Selection Error", "Please select an item to update")
-
-def delete_data() :
-    selected_item = tree.selection()
-    if selected_item :
-        tree.delete(selected_item)
-    else :
-        messagebox.showwarning("Selection Error", "Please select an item to delete")
-
-def clear_entries() :
-    name_entry.delete(0, tk.END)
-    email_entry.delete(0, tk.END)
-    phone_entry.delete(0, tk.END)
-
+import database as db
 
 class Users(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color=c.backgroundColor)
 
+        # variables
+        ssn_var = tk.StringVar(value='')
+        name_var = tk.StringVar(value='')
+        email_var = tk.StringVar(value='')
+        number_var = tk.StringVar(value='')
+
         # grid configuration : main frame
-        self.rowconfigure((0,1,2,3), weight = 1)
-        self.rowconfigure(4, weight = 6)
-        self.columnconfigure((0,1,2), weight = 1)
+        self.rowconfigure((0,1,2,3,4), weight = 1)
+        self.rowconfigure(5, weight = 6)
+        self.columnconfigure((0,1,2,3), weight = 1)
 
         # labels
         name_label = tk.Label(self, text = "Name",font=(c.family), background=c.backgroundColor)
@@ -58,29 +28,92 @@ class Users(ctk.CTkFrame):
         email_label.grid(row = 1, column = 0, padx = 10, pady = 10,sticky='e')
         phone_label = tk.Label(self, text = "Phone Number",font=(c.family), background=c.backgroundColor)
         phone_label.grid(row = 2, column = 0, padx = 10, pady = 10,sticky='e')
+        ssn_label = tk.Label(self, text = "SSN",font=(c.family), background=c.backgroundColor)
+        ssn_label.grid(row = 3, column = 0, padx = 10, pady = 10,sticky='e')
 
         # entries
-        name_entry = w.my_entry(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user name")
-        name_entry.grid(row = 0, column = 1, columnspan= 2, padx = (10,200), pady = 10, sticky='we')
-        email_entry = w.my_entry(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user email")
-        email_entry.grid(row = 1, column = 1, columnspan= 2, padx = (10,200), pady = 10, sticky='we')
-        phone_entry = w.my_entry(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user phone number")
-        phone_entry.grid(row = 2, column = 1, columnspan= 2, padx = (10,200), pady = 10, sticky='we')
-
-        # buttons
-        add_button = w.my_button(self,text="Add",font=ctk.CTkFont(c.family,size=20),command=add_data)
-        add_button.grid(row = 3, column = 0, padx = 10, pady = 20,sticky='e')
-        update_button = w.my_button(self,text="Update",font=ctk.CTkFont(c.family,size=20),command=update_data)
-        update_button.grid(row = 3, column = 1, padx = 10, pady = 10)
-        delete_button = w.my_button(self,text="Delete",font=ctk.CTkFont(c.family,size=20),command=delete_data)
-        delete_button.grid(row = 3, column = 2, padx = 10, pady = 10,sticky='w')
+        name_entry = w.my_entry_var(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user name", variable=name_var)
+        name_entry.grid(row = 0, column = 1, columnspan= 3, padx = (10,200), pady = 10, sticky='we')
+        email_entry = w.my_entry_var(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user email", variable=email_var)
+        email_entry.grid(row = 1, column = 1, columnspan= 3, padx = (10,200), pady = 10, sticky='we')
+        phone_entry = w.my_entry_var(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user phone number",variable=number_var)
+        phone_entry.grid(row = 2, column = 1, columnspan= 3, padx = (10,200), pady = 10, sticky='we')
+        ssn_entry = w.my_entry_var(self,font=ctk.CTkFont(c.family,size=16),hint="Enter user SSN",variable=ssn_var)
+        ssn_entry.grid(row = 3, column = 1, columnspan= 3, padx = (10,200), pady = 10, sticky='we')
 
         # table
-        tree = ttk.Treeview(self, columns = ("Name", "Email", "Phone Number"), show = 'headings')
+        tree = ttk.Treeview(self, columns = ("SSN","Name", "Email", "Phone Number"), show = 'headings')
+        tree.heading("SSN", text = "SSN")
         tree.heading("Name", text = "Name")
         tree.heading("Email", text = "Email")
         tree.heading("Phone Number", text = "Phone Number")
-        tree.grid(row = 4, column = 0, columnspan = 3, padx = 10, pady = 10)
+        tree.grid(row = 5, column = 0, columnspan = 4, padx = 10, pady = 10)
+
+        def on_tree_click(event):
+            selected_item = tree.selection()[0]  # Get the first selected item
+            item_values = tree.item(selected_item)["values"]
+
+            # set variables
+            ssn_var.set(item_values[0])
+            name_var.set(item_values[1])
+            email_var.set(item_values[2])
+            number_var.set(item_values[3])
+
+        # bind tree event
+        tree.bind("<ButtonRelease-1>", on_tree_click)
+
+        users = db.show_user('')
+        for user in users:
+            tree.insert('', 'end', values= user[0:4])
+
+        def insert():
+            if email_var.get()!='' and ssn_var.get()!='' and number_var.get()!='' and name_var.get()!='':
+                db.add_user(email=email_var.get(), ssn=ssn_var.get(),name=name_var.get(), number=number_var.get())
+                tree.insert('', 'end', values= (ssn_var.get(), name_var.get(),email_var.get(), number_var.get()))
+            else:
+                message = messagebox.showwarning(message='Please fill all fields', title='Empty Fields')
+                return
+
+        def clear():
+            ssn_var.set(value='')
+            name_var.set(value='')
+            email_var.set(value='')
+            number_var.set(value='')
+
+        def update():
+            selected_item = tree.selection()[0]
+            if selected_item:
+                ssn = ssn_var.get()
+                name = name_var.get()
+                email = email_var.get()
+                number = number_var.get()
+                if ssn and email and number and name:
+                    tree.item(selected_item, values = (ssn, name, email, number))
+                    db.update_user(ssn = ssn, name= name, email=email, number = number)
+                    clear()
+                else:
+                    messagebox.showwarning("Input Error", "Please fill all fields")
+            else:
+                messagebox.showwarning("Selection Error", "Please select an item to update")
+        
+        def delete():
+            selected_item = tree.selection()[0]
+            if selected_item :
+                tree.delete(selected_item)
+                db.delete_user(ssn=ssn_var.get())
+            else :
+                messagebox.showwarning("Selection Error", "Please select an item to delete")
+
+        # buttons
+        clear_button = w.my_button(self,text="Clear",font=ctk.CTkFont(c.family,size=20),command=clear)
+        clear_button.grid(row = 4, column = 0, padx = 10, pady = 20,sticky='e')
+        add_button = w.my_button(self,text="Add",font=ctk.CTkFont(c.family,size=20),command=insert)
+        add_button.grid(row = 4, column = 1, padx = 10, pady = 20,sticky='e')
+        update_button = w.my_button(self,text="Update",font=ctk.CTkFont(c.family,size=20),command=update)
+        update_button.grid(row = 4, column = 2, padx = 10, pady = 10)
+        delete_button = w.my_button(self,text="Delete",font=ctk.CTkFont(c.family,size=20),command=delete)
+        delete_button.grid(row = 4, column = 3, padx = 10, pady = 10,sticky='w')
+
 
 
 

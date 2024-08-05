@@ -160,12 +160,12 @@ def admin_exist(email):
     else: return True
 
 # LOAN
-# def add_loan(loan_id, user_id):
-#     connection = sqlite3.connect('library.db')
-#     c = connection.cursor()
-#     c.execute('INSERT INTO book(isbn, title, author, genre) VALUES(?,?,?,?)', (isbn, title, author, genre))
-#     connection.commit()
-#     connection.close()
+def add_loan(loan_id, user_id, book_id, issue_date, due_date):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute('INSERT INTO loan(loan_id, user_id, book_id, issue_date, due_date) VALUES(?,?,?,?,?)', (loan_id, user_id, book_id, issue_date, due_date))
+    connection.commit()
+    connection.close()
 
 # def delete_book(isbn):
 #     connection = sqlite3.connect('library.db')

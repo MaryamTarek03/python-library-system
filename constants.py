@@ -52,3 +52,15 @@ icon = 'images\\book_stack.ico'
 
 # font
 family = 'Gabriola'
+
+class report:
+    def __init__(self):
+        self.issued_book = 'Issued Book'
+        self.overdue_book = 'Overdue Book'
+        self.returned_book = 'Returned Book'
+        self.added_user = 'Added User'
+        self.deleted_user = 'Deleted User'
+        self.updated_user = 'Updated User'
+        self.added_book = 'Added Book'
+        self.deleted_book = 'Deleted Book'
+        self.updated_book = 'Updated Book'

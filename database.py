@@ -33,6 +33,14 @@ def create_table():
     #     name TEXT,
     #     password TEXT)
     # ''')
+
+    # REPORT
+    # c.execute('DROP TABLE report')
+    # c.execute('''CREATE TABLE report(
+    #     report_type TEXT,
+    #     generated_on TEXT,
+    #     report_data TEXT)
+    # ''')
     connection.commit()
     connection.close()
 
@@ -91,6 +99,21 @@ def show_user(search):
     connection.close()
     return users
 
+def get_user(search):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute("SELECT ssn, name, email, number FROM user WHERE ssn LIKE ?", (search,))
+    users = c.fetchall()
+    connection.commit()
+    connection.close()
+    return users
+
+def user_exist(ssn):
+    user = get_user(ssn)
+    if user == []:
+        return False
+    else: return True
+
 # print(show_user('ssn'))
 
 # BOOK
@@ -123,6 +146,21 @@ def show_book(search):
     connection.commit()
     connection.close()
     return books
+
+def get_book(search):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute("SELECT isbn, title, author, genre FROM book WHERE isbn LIKE ?", (search,))
+    books = c.fetchall()
+    connection.commit()
+    connection.close()
+    return books
+
+def book_exist(isbn):
+    book = get_book(isbn)
+    if book == []:
+        return False
+    else: return True
 
 # ADMIN
 def add_admin(name, email, password):
@@ -194,3 +232,29 @@ def book_available(book_id):
     if book == []:
         return True
     else: return False
+
+
+# REPORT
+def add_report(report_type, generated_on, report_data):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute('INSERT INTO report(report_type, generated_on, report_data) VALUES(?, ?, ?)', (report_type, generated_on, report_data))
+    connection.commit()
+    connection.close()
+
+def show_report(search):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute("SELECT report_type, generated_on, report_data FROM report WHERE report_data LIKE ?", (f'%{search}%',))
+    books = c.fetchall()
+    connection.commit()
+    connection.close()
+
+def filter_report(report_type, start_date, end_date):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute("SELECT report_type, generated_on, report_data FROM report WHERE report_type LIKE ? AND generated_on >= ? AND generated_on <= ?", (report_type, start_date, end_date))
+    report = c.fetchall()
+    connection.commit()
+    connection.close()
+    return report

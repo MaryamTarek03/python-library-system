@@ -132,4 +132,4 @@ class NavigationButtons(ctk.CTkFrame):
 #     # auth.isSigned = False 
 #     # auth.Auth(title='Library',size=(800,600))
 #     # if (auth.isSigned):
-App(title='Alyaa\'s Library', size=(800, 600))
+App(title='The Heart of the City', size=(800, 600))

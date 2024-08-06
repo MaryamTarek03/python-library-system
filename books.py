@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
 from PIL import Image, ImageTk
+import datetime
 import customtkinter as ctk
 import constants as c
 import widgets as w
@@ -130,7 +131,13 @@ class BookCU(ctk.CTkFrame):
 
         def insert():
             if isbn_var.get()!='' and title_var.get()!='' and author_var.get()!='' and genre_var.get()!='':
-                db.add_book(isbn= isbn_var.get(), title= title_var.get(),author=author_var.get(), genre=genre_var.get())
+                if db.book_exist(isbn_var.get()):
+                    messagebox.showwarning(message='Book already exists', title='Book Exists')
+                    return
+                db.add_book(isbn= isbn_var.get(), title= title_var.get(), author=author_var.get(), genre=genre_var.get())
+                db.add_report(report_type=c.report().added_book,
+                            generated_on=datetime.datetime.now(),
+                            report_data=f'On {datetime.datetime.now()} A Book with ISBN: {isbn_var.get()}, Title: {title_var.get()}, Author: {author_var.get()}, Genre: {genre_var.get()} was Added')
                 tree.insert('', 'end', values= (isbn_var.get(), title_var.get(),author_var.get(), genre_var.get()))
             else:
                 message = messagebox.showwarning(message='Please fill all fields', title='Warning')
@@ -158,6 +165,9 @@ class BookCU(ctk.CTkFrame):
                         return
                     tree.item(selected_item, values = (isbn, title, author, genre))
                     db.update_book(isbn = isbn, title = title, author= author, genre = genre)
+                    db.add_report(report_type=c.report().updated_book, 
+                                generated_on=datetime.datetime.now(), 
+                                report_data=f'The book of ISBN: {isbn} was updated to Title: {title}, Author: {author}, Genre: {genre}')
                     clear()
                 else:
                     messagebox.showwarning("Input Error", "Please fill all fields")
@@ -169,6 +179,9 @@ class BookCU(ctk.CTkFrame):
             if selected_item:
                 tree.delete(selected_item)
                 db.delete_book(isbn=isbn_var.get())
+                db.add_report(report_type=c.report().deleted_book,
+                            generated_on=datetime.datetime.now(),
+                            report_data=f'On {datetime.datetime.now()} A Book with ISBN: {isbn_var.get()}, Title: {title_var.get()}, Author: {author_var.get()}, Genre: {genre_var.get()} was Deleted')
             else :
                 messagebox.showwarning("Selection Error", "Please select an item to delete")
 

@@ -7,6 +7,7 @@ import customtkinter as ctk
 import widgets as w
 import constants as c
 import database as db
+import datetime
 
 
 
@@ -77,13 +78,11 @@ class LoanTable(ctk.CTkFrame):
 
         loaned_books_list = ttk.Treeview(self, columns=("Title", "User Name", "Issue Date", "Due Date"), show="headings")
 
-        # loaned_books_list.heading("id", text="ID",)
         loaned_books_list.heading("Title", text="Book ISBN",)
         loaned_books_list.heading("User Name", text="User SSN")
         loaned_books_list.heading("Issue Date", text="Issue Date")
         loaned_books_list.heading("Due Date", text="Due Date")
 
-        # loaned_books_list.column('id', width = 150)
         loaned_books_list.column('Title', width = 190)
         loaned_books_list.column('User Name', width = 190)
         loaned_books_list.column('Issue Date', width = 190)
@@ -115,6 +114,9 @@ class LoanTable(ctk.CTkFrame):
                     messagebox.showwarning("Book Unavailable", "The book you are trying to issue is unavailable")
                     return
                 db.add_loan(book_id=isbn_var.get(),user_id=ssn_var.get(), due_date=due_var.get(),issue_date=issue_var.get())
+                db.add_report(report_type=c.report().issued_book,
+                            generated_on=datetime.datetime.now(),
+                            report_data=f'On {datetime.datetime.now()} A Book with ISBN: {isbn_var.get()}, was issued to User of SSN: {ssn_var.get()}')
                 loaned_books_list.insert('', 'end', values= (isbn_var.get(), ssn_var.get(),issue_var.get(), due_var.get()))
             else:
                 message = messagebox.showwarning(message='Please fill all fields', title='Warning')
@@ -125,6 +127,9 @@ class LoanTable(ctk.CTkFrame):
             if ((db.book_available)) and selected_item:
                 loaned_books_list.delete(selected_item)
                 db.delete_loan(book_id=isbn_var.get())
+                db.add_report(report_type=c.report().returned_book,
+                            generated_on=datetime.datetime.now(),
+                            report_data=f'On {datetime.datetime.now()} A Book with ISBN: {isbn_var.get()}, was Returned')
             else: messagebox.showwarning("Selection Error", "Please select an item")
         
         self.insert = insert
@@ -186,10 +191,10 @@ class Loan(ctk.CTkFrame):
         issue_book_frame.columnconfigure((0,1), weight = 1, uniform = 'a')
         
         # frame items
-        book_title = field(issue_book_frame, 'Book Title', 'Enter Book Title', isbn_var)
+        book_title = field(issue_book_frame, 'Book ISBN', 'Enter Book ISBN', isbn_var)
         book_title.grid(row = 0, column = 0, columnspan = 2, sticky= 'we')
 
-        user_name = field(issue_book_frame, 'User Name', 'Enter User Name', ssn_var)
+        user_name = field(issue_book_frame, 'User SSN', 'Enter User SSN', ssn_var)
         user_name.grid(row = 1, column = 0, columnspan = 2, sticky= 'we')
 
         issue_date = field(issue_book_frame, 'Issue Date', 'Enter Issue Date', issue_var)

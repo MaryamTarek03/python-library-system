@@ -42,6 +42,7 @@ def my_entry(parent, hint, font, isHidden = False, height = c.widget_height):
             placeholder_text_color = c.fontColor,
             border_width = 0,
             height = height, 
+            text_color = c.fontColor,
             show = char
             # lambda : '*' if isHidden else '*'
         )
@@ -58,6 +59,7 @@ def my_entry_var(parent, hint, font, variable, isHidden = False, height = c.widg
             fg_color = c.primaryColor,
             placeholder_text_color = c.fontColor,
             border_width = 0,
+            text_color = c.fontColor,
             height = height, 
             show = char,
             textvariable = variable
@@ -91,10 +93,11 @@ def book_frame(parent, title, author, genre):
     frame.columnconfigure(0, weight = 1, uniform = 'a')
     
     image_label = ctk.CTkLabel(frame,
-                font=(c.family , 12, 'bold'),
+                font=(c.family , 18, 'bold'),
                 text=title,
                 fg_color=c.backgroundColor,
                 width=25,
+                text_color = c.fontColor,
                 image=ctk.CTkImage(light_image = Image.open(c.book_cover), size = (150,200)),
                 compound = TOP,
                 wraplength = 100)
@@ -112,10 +115,13 @@ def my_combobox(parent, values, variable):
                         border_color = c.primaryColor, 
                         button_color = c.primaryColor,
                         corner_radius = c.radius,
-                        dropdown_fg_color = c.primaryColor,
+                        dropdown_fg_color = c.backgroundColor,
                         state='readonly', 
                         values=values,
-                        variable =variable
+                        variable =variable,
+                        text_color = c.fontColor,
+                        dropdown_text_color = c.fontColor,
+                        dropdown_hover_color = c.primaryColor,
                         )
     return combobox
 class SearchArea(ctk.CTkFrame):

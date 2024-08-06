@@ -18,7 +18,7 @@ def field(parent,text,hint, variable):
     frame.columnconfigure(0,weight=1,uniform="a")
     frame.columnconfigure(1,weight=3,uniform="a")
     
-    label=tk.Label(frame,text=text,bg=c.backgroundColor,font=(c.family,22))
+    label=tk.Label(frame,text=text,bg=c.backgroundColor,font=(c.family,22, 'bold'), foreground=c.fontColor)
     label.grid(row=0,column=0,sticky='ws',padx=c.padding)
     
     entry=w.my_entry_var(frame,hint=hint,font=ctk.CTkFont(c.family), variable=variable)
@@ -32,7 +32,7 @@ def combobox(parent,text, variable):
     frame.columnconfigure(0,weight=1,uniform="a")
     frame.columnconfigure(1,weight=3,uniform="a")
 
-    label=tk.Label(frame,text=text,bg=c.backgroundColor,font=(c.family,22))
+    label=tk.Label(frame,text=text,bg=c.backgroundColor,font=(c.family,22, 'bold'), foreground=c.fontColor)
     label.grid(row=0,column=0,sticky='ws',padx=c.padding)
     
     combobox=w.my_combobox(frame, genres, variable)
@@ -47,16 +47,16 @@ def buttons(parent, insert, clear, update, delete):
     frame.rowconfigure(0,weight=1,uniform="a")
     frame.rowconfigure(1,weight=1,uniform="a")
     
-    clear_button=w.my_button(frame,"Clear",font=ctk.CTkFont(c.family,size=18),command=clear)
+    clear_button=w.my_button(frame,"Clear",font=ctk.CTkFont(c.family,size=18, weight = 'bold'),command=clear)
     clear_button.grid(row=0,column=0, sticky = 'e', padx = c.padding, pady = 5)
     
-    add_button=w.my_button(frame,"Add",font=ctk.CTkFont(c.family,size=18),command=insert)
+    add_button=w.my_button(frame,"Add",font=ctk.CTkFont(c.family,size=18, weight = 'bold'),command=insert)
     add_button.grid(row=0,column=1, sticky = 'w', padx = c.padding, pady = 5)
     
-    delete_button=w.my_button(frame,"Delete",font=ctk.CTkFont(c.family,size=18),command=delete)
+    delete_button=w.my_button(frame,"Delete",font=ctk.CTkFont(c.family,size=18, weight = 'bold'),command=delete)
     delete_button.grid(row=1,column=0, sticky = 'e', padx = c.padding, pady = 5)
     
-    update_button=w.my_button(frame,"Update",font=ctk.CTkFont(c.family,size=18),command=update)
+    update_button=w.my_button(frame,"Update",font=ctk.CTkFont(c.family,size=18, weight = 'bold'),command=update)
     update_button.grid(row=1,column=1, sticky = 'w', padx = c.padding, pady = 5)
     
     return frame
@@ -67,6 +67,7 @@ class BookCU(ctk.CTkFrame):
         super().__init__(parent, fg_color=c.backgroundColor)
 
         # variables
+        isbn_constant = ''
         title_var = tk.StringVar(value = '')
         isbn_var = tk.StringVar(value = '')
         author_var = tk.StringVar(value = '')
@@ -111,7 +112,10 @@ class BookCU(ctk.CTkFrame):
             item_values = tree.item(selected_item)["values"]
 
             # set variables
+            
             isbn_var.set(item_values[0])
+            isbn_constant = item_values[0]
+            
             title_var.set(item_values[1])
             author_var.set(item_values[2])
             genre_var.set(item_values[3])
@@ -140,12 +144,18 @@ class BookCU(ctk.CTkFrame):
 
         def update():
             selected_item = tree.selection()[0]
+            item_values = tree.item(selected_item)["values"]
+            isbn_constant = item_values[0]
             if selected_item:
-                isbn = selected_item[0]
+                isbn = isbn_var.get()
                 title = title_var.get()
                 author = author_var.get()
                 genre = genre_var.get()
                 if title and author and genre and isbn:
+                    if isbn_var.get() != isbn_constant:
+                        isbn_var.set(value=isbn_constant)
+                        messagebox.showwarning(title="ISBN Error", message="You changed ISBN Value, the value was reset")
+                        return
                     tree.item(selected_item, values = (isbn, title, author, genre))
                     db.update_book(isbn = isbn, title = title, author= author, genre = genre)
                     clear()
@@ -156,7 +166,7 @@ class BookCU(ctk.CTkFrame):
         
         def delete():
             selected_item = tree.selection()[0]
-            if selected_item :
+            if selected_item:
                 tree.delete(selected_item)
                 db.delete_book(isbn=isbn_var.get())
             else :

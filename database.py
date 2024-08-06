@@ -18,7 +18,6 @@ def create_table():
     # LOAN
     # c.execute('DROP TABLE loan')
     # c.execute('''CREATE TABLE loan(
-    #     loan_id TEXT PRIMARY KEY NOT NULL,
     #     user_id TEXT,
     #     book_id TEXT,
     #     issue_date TEXT,
@@ -160,19 +159,19 @@ def admin_exist(email):
     else: return True
 
 # LOAN
-def add_loan(loan_id, user_id, book_id, issue_date, due_date):
+def add_loan(user_id, book_id, issue_date, due_date):
     connection = sqlite3.connect('library.db')
     c = connection.cursor()
-    c.execute('INSERT INTO loan(loan_id, user_id, book_id, issue_date, due_date) VALUES(?,?,?,?,?)', (loan_id, user_id, book_id, issue_date, due_date))
+    c.execute('INSERT INTO loan(user_id, book_id, issue_date, due_date) VALUES(?,?,?,?)', (user_id, book_id, issue_date, due_date))
     connection.commit()
     connection.close()
 
-# def delete_book(isbn):
-#     connection = sqlite3.connect('library.db')
-#     c = connection.cursor()
-#     c.execute('DELETE FROM book WHERE isbn LIKE ?', (isbn,))
-#     connection.commit()
-#     connection.close()
+def delete_loan(book_id):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute('DELETE FROM loan WHERE book_id LIKE ?', (book_id,))
+    connection.commit()
+    connection.close()
 
 # def update_book(isbn, title, author, genre):
 #     connection = sqlite3.connect('library.db')
@@ -181,12 +180,17 @@ def add_loan(loan_id, user_id, book_id, issue_date, due_date):
 #     connection.commit()
 #     connection.close()
 
-# def show_book(search):
-#     connection = sqlite3.connect('library.db')
-#     c = connection.cursor()
-#     c.execute("SELECT isbn, title, author, genre FROM book WHERE title LIKE ? OR isbn LIKE ? OR author LIKE ? OR genre LIKE ?", (f'%{search}%', f'%{search}%', f'%{search}%',f'%{search}%'))
-#     books = c.fetchall()
-#     connection.commit()
-#     connection.close()
-#     return books
+def show_loan(search):
+    connection = sqlite3.connect('library.db')
+    c = connection.cursor()
+    c.execute("SELECT book_id, user_id, issue_date, due_date FROM loan WHERE book_id LIKE ?", (f'%{search}%',))
+    books = c.fetchall()
+    connection.commit()
+    connection.close()
+    return books
 
+def book_available(book_id):
+    book = show_loan(book_id)
+    if book == []:
+        return True
+    else: return False

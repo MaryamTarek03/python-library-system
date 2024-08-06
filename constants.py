@@ -35,6 +35,13 @@ books_and_trees = 'images\\books_trees.png'
 book_cover = 'images\\book_cover.png'
 girl_reading = 'images\\girl_reading.png'
 
+cat1 = 'images\\cat1.png'
+cat2 = 'images\\cat2.png'
+shelf1 = 'images\\shelf1.png'
+shelf2 = 'images\\shelf2.png'
+shelf3 = 'images\\shelf3.png'
+shelfs = 'images\\shelfs.png'
+
 # button icons
 book = 'images\\button\\book.png'
 candle = 'images\\button\\book.png'

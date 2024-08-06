@@ -78,7 +78,8 @@ class Home(ctk.CTkFrame):
         
 
         # row 2: popular
-
+        shelf = ctk.CTkLabel(self, text='', image = ctk.CTkImage(light_image = Image.open(c.shelf1), size = (556, 196)))
+        shelf.grid(row = 1, column = 0)
 
         # row 3: summary
         # items
@@ -86,18 +87,20 @@ class Home(ctk.CTkFrame):
         books_length = len(books)
         loans = db.show_loan('')
         loans_length = len(loans)
+        summary_image = ctk.CTkLabel(self.summary, text='', image = ctk.CTkImage(light_image = Image.open(c.cat1), size = (300, 300)), fg_color = 'transparent', corner_radius = c.radius)
+        summary_image.grid(row = 0, rowspan = 2, column = 0, columnspan = 2, padx = (c.padding,0))
         self.summary_item_books = SummaryItem(self.summary, text = 'books:', number = books_length)
         self.summary_item_loans = SummaryItem(self.summary, text = 'loans:', number = loans_length)
         # self.summary_item_due_loans = SummaryItem(self.summary, text = 'due loans', number = 4)
 
         # grid
-        self.summary_item_books.grid(column = 2, row = 0, sticky = 'nsew', padx = c.padding, pady = c.padding)
-        self.summary_item_loans.grid(column = 2, row = 1, sticky = 'nsew', padx = c.padding, pady = c.padding)
+        self.summary_item_books.grid(column = 2, row = 0, sticky = 'nsew', padx = 10, pady = 10)
+        self.summary_item_loans.grid(column = 2, row = 1, sticky = 'nsew', padx = 10, pady = 10)
         # self.summary_item_due_loans.grid(column = 2, row = 0, sticky = 'nsew', padx = c.padding, pady = c.padding)
 
 class SummaryItem(ctk.CTkFrame):
     def __init__(self, parent, text, number):
-        super().__init__(parent, fg_color = 'white', corner_radius = c.radius)
+        super().__init__(parent, fg_color = c.backgroundColor, corner_radius = c.radius)
         
         # attributes
         self.number = ctk.CTkLabel(self, text = f'{number}', font = ctk.CTkFont('Gabriola', size = 30, weight = 'bold'))

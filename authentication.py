@@ -12,7 +12,7 @@ import database as db
 
 def go_home(self):
     self.destroy()
-    app.App('Library', (800,600))
+    app.App('The Heart of the City', (800,600))
 
 def login(self, email, password):
     if email== '' or password=='':
@@ -101,7 +101,7 @@ class Login(ctk.CTkFrame):
 
         # content : form frame
         # row 1 : title
-        title = ctk.CTkLabel(self.frame_form, text="The Library", fg_color=c.backgroundColor, font=(c.family, 50, "bold"), corner_radius = c.radius)
+        title = ctk.CTkLabel(self.frame_form, text="The Heart of the City", fg_color=c.backgroundColor, font=(c.family, 44, "bold"), corner_radius = c.radius)
         title.grid(row = 0, column = 0, columnspan = 2, sticky ='nsew', pady = c.padding)
 
         # row 2 : welcome message
@@ -160,7 +160,7 @@ class SignUp(ctk.CTkFrame):
 
         # content : form frame
         # row 1 : title
-        title = ctk.CTkLabel(self.frame_form, text="The Library", fg_color=c.backgroundColor, font=(c.family, 50, "bold"), corner_radius = c.radius)
+        title = ctk.CTkLabel(self.frame_form, text="The Heart of the City", fg_color=c.backgroundColor, font=(c.family, 44, "bold"), corner_radius = c.radius)
         title.grid(row = 0, column = 0, columnspan = 2, sticky ='nsew', pady = c.padding)
 
         # row 2 : welcome message

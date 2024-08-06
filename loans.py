@@ -10,65 +10,6 @@ import database as db
 import datetime
 
 
-
-# Function to Book Names and members
-def search():
-    # query = return_search_entry.get().lower()
-    # filtered_books = [book for book in loaned_books if query in book["Title"].lower() or query in book["User Name"].lower()]
-    # update_loaned_books_list(filtered_books)
-    pass
-
-# Function to clear issue book fields
-def clear_issue_fields():
-    # book_name_entry.delete(0, tk.END)
-    # user_name_entry.delete(0, tk.END)
-    # issue_date_entry.delete(0, tk.END)
-    # due_date_entry.delete(0, tk.END)
-    pass
-
-# Function to update the loaned books list
-def update_loaned_books_list(filtered_books=None):
-    # for i in loaned_books_list.get_children():
-    #     loaned_books_list.delete(i)
-    # books = filtered_books if filtered_books else loaned_books
-    # for i, book in enumerate(books):
-    #     loaned_books_list.insert("", "end", iid=i, values=(book["Title"], book["User Name"], book["Issue Date"], book["Due Date"], book["Status"]))
-    pass
-
-# Function to return a book
-def return_book():
-    # selected_item = loaned_books_list.selection()
-    # if selected_item:
-    #     item_index = int(selected_item[0])
-    #     loaned_books.pop(item_index)
-    #     update_loaned_books_list()
-    # else:
-    #     messagebox.showerror("Error", "Please select a book to return.")
-    pass
-
-# Function to issue a book
-def issue_book():
-    # book_name = book_name_entry.get()
-    # user_name = user_name_entry.get()
-    # issue_date = issue_date_entry.get()
-    # due_date = due_date_entry.get()
-
-    # if book_name and user_name and issue_date and due_date:
-    #     loaned_books.append({
-    #         "Title": book_name,
-    #         "User Name": user_name,
-    #         "Issue Date": issue_date,
-    #         "Due Date": due_date,
-    #         "Status": "Issued"
-    #     })
-    #     update_loaned_books_list()
-    #     clear_issue_fields()
-    # else:
-    #     messagebox.showerror("Error", "All fields must be filled out.")
-    pass
-
-
-
 class LoanTable(ctk.CTkFrame):
     def __init__(self, parent, isbn_var, ssn_var, issue_var, due_var, id_var):
         super().__init__(parent, fg_color = c.backgroundColor)
@@ -203,10 +144,11 @@ class Loan(ctk.CTkFrame):
         due_date = field(issue_book_frame, 'Due Date', 'Enter Due Date', due_var)
         due_date.grid(row = 3, column = 0, columnspan = 2, sticky= 'we')
 
-        cancel_button = w.my_button(issue_book_frame, 'Return', (c.family, 20), command= table.return_book)
+        # buttons
+        cancel_button = w.my_button(issue_book_frame, 'Return', (c.family, 20, 'bold'), command= table.return_book)
         cancel_button.grid(row = 4, column = 0, sticky = 'e')
 
-        issue_button = w.my_button(issue_book_frame, 'Issue Book', (c.family, 20), command= table.insert)
+        issue_button = w.my_button(issue_book_frame, 'Issue Book', (c.family, 20, 'bold'), command= table.insert)
         issue_button.grid(row = 4, column = 1, sticky = 'e')
 
         # image

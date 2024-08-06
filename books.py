@@ -10,8 +10,27 @@ import widgets as w
 import database as db
 
 padding = 100
-genres = ('Fantasy', 'Horror', 'Fiction', 'Romance', 'Crime', 'Manga')
-
+genres = (
+    "Fiction",
+    "Fantasy",
+    "Romance",
+    "Thriller",
+    "Mystery",
+    "Horror",
+    "Non-fiction",
+    "Biography",
+    "Poetry",
+    "Adventure",
+    "Classic",
+    "Drama",
+    "Dystopian",
+    "Utopian",
+    "Crime",
+    "Paranormal",
+    "Steampunk",
+    "Cyberpunk",
+)
+genres = sorted(genres)
 def field(parent,text,hint, variable):
 
     frame=ctk.CTkFrame(parent,fg_color=c.backgroundColor)
@@ -129,6 +148,12 @@ class BookCU(ctk.CTkFrame):
         for book in books:
             tree.insert('', 'end', values= book[0:4])
 
+        def clear():
+            title_var.set(value='')
+            isbn_var.set(value='')
+            author_var.set(value='')
+            genre_var.set(value='')
+        
         def insert():
             if isbn_var.get()!='' and title_var.get()!='' and author_var.get()!='' and genre_var.get()!='':
                 if db.book_exist(isbn_var.get()):
@@ -139,15 +164,12 @@ class BookCU(ctk.CTkFrame):
                             generated_on=datetime.datetime.now(),
                             report_data=f'On {datetime.datetime.now()} A Book with ISBN: {isbn_var.get()}, Title: {title_var.get()}, Author: {author_var.get()}, Genre: {genre_var.get()} was Added')
                 tree.insert('', 'end', values= (isbn_var.get(), title_var.get(),author_var.get(), genre_var.get()))
+                clear()
             else:
                 message = messagebox.showwarning(message='Please fill all fields', title='Warning')
                 return
 
-        def clear():
-            title_var.set(value='')
-            isbn_var.set(value='')
-            author_var.set(value='')
-            genre_var.set(value='')
+        
 
         def update():
             selected_item = tree.selection()[0]
@@ -189,17 +211,3 @@ class BookCU(ctk.CTkFrame):
         buttons_frame=buttons(self, insert=insert, clear = clear, update=update, delete=delete)
         buttons_frame.grid(row=5,column=1,sticky="we")
 
-
-# test frame class
-#! UNCOMMENT TO RUN FROM THIS FILE
-
-# window=ctk.CTk()
-# window.geometry("800x600")
-
-# window.rowconfigure(0,weight = 1)
-# window.columnconfigure(0,weight = 1)
-
-# frame = BookCU(window)
-# frame.grid(sticky = 'nsew')
-
-# window.mainloop()

@@ -119,13 +119,13 @@ class Users(ctk.CTkFrame):
                 messagebox.showwarning("Selection Error", "Please select an item to delete")
 
         # buttons
-        clear_button = w.my_button(self,text="Clear",font=ctk.CTkFont(c.family,size=20),command=clear)
+        clear_button = w.my_button(self,text="Clear",font=ctk.CTkFont(c.family,size=20, weight = 'bold'),command=clear)
         clear_button.grid(row = 4, column = 0, padx = 10, pady = 20,sticky='e')
-        add_button = w.my_button(self,text="Add",font=ctk.CTkFont(c.family,size=20),command=insert)
+        add_button = w.my_button(self,text="Add",font=ctk.CTkFont(c.family,size=20, weight = 'bold'),command=insert)
         add_button.grid(row = 4, column = 1, padx = 10, pady = 20,sticky='e')
-        update_button = w.my_button(self,text="Update",font=ctk.CTkFont(c.family,size=20),command=update)
+        update_button = w.my_button(self,text="Update",font=ctk.CTkFont(c.family,size=20, weight = 'bold'),command=update)
         update_button.grid(row = 4, column = 2, padx = 10, pady = 10)
-        delete_button = w.my_button(self,text="Delete",font=ctk.CTkFont(c.family,size=20),command=delete)
+        delete_button = w.my_button(self,text="Delete",font=ctk.CTkFont(c.family,size=20, weight = 'bold'),command=delete)
         delete_button.grid(row = 4, column = 3, padx = 10, pady = 10,sticky='w')
 
 
